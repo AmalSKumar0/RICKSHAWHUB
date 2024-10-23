@@ -1,0 +1,46 @@
+<div class="into">
+    <h1 class="TagLine">Newly registered <span class="ride">Drivers!</span></h1>
+    <div class="card-container">
+        {% if newdrivers %}
+            {% for newdriver in newdrivers %}
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{ newdriver.auto_img.url }}" alt="{{ newdriver.name }}">
+                    </div>
+                    <div class="card-content">
+                        <h2>{{ newdriver.name }}</h2>
+                        <div class="section">
+                            <p>Address: {{ newdriver.address }}</p>
+                            <p>Gender: {{ newdriver.gender }}</p>
+                        </div>
+                        <div class="section">
+                            <p>Phone No: {{ newdriver.phone_no }}</p>
+                        </div>
+                        <p>Email: {{ newdriver.email }}</p>
+                        <p>Licence No: {{ newdriver.licence_no }}</p>
+                        <p>Vehicle No: <span class="vno">{{ newdriver.vehicle_no }}</span></p>
+                        <div class="button-group">
+                            <form>
+                                <button name="deleteNewDriver" onclick="window.location.href='confirmAction(delete={{ newdriver.email }})'" value="{{ newdriver.driver_id }}">Cancel</button>
+                                <button name="accept" onclick="window.location.href='accept={{ newdriver.email }}'" value="{{ newdriver.driver_id }}">Accept</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No results found</p>
+            <br><br><br><br><br><br><br><br><br>
+        {% endif %}
+    </div>
+</div>
+<script>
+function confirmAction(action, email, driverId) {
+    let message = (action === 'delete') ? 'Are you sure you want to delete this driver?' : 'Are you sure you want to accept this driver?';
+    
+    if (confirm(message)) {
+        // If confirmed, proceed with the action by redirecting the user to the appropriate URL
+        window.location.href = action + '=' + email
+    }
+}
+</script>

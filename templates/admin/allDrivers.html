@@ -1,0 +1,36 @@
+<div class="into">
+    <h1 class="TagLine">All <span class="ride">Drivers!</span></h1>
+    <div class="card-container">
+    {% if drivers %}
+        {% for driver in drivers %}
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{ driver.auto_img.url }}" alt="{{ driver.name }}">
+                </div>
+                <div class="card-content">
+                    <h2>{{ driver.name }}</h2>
+                    <div class="section">
+                        <p>Address: {{ driver.address }}</p>
+                        <p>Gender: {{ driver.gender }}</p>
+                    </div>
+                    <div class="section">
+                        <p>Phone No: {{ driver.phone_no }}</p>
+                    </div>
+                    <p>Email: {{ driver.email }}</p>
+                    <p>Licence No: {{ driver.licence_no }}</p>
+                    <p>Vehicle No: <span class="vno">{{ driver.vehicle_no }}</span></p>
+                    <div class="button-group">
+                        <form>
+                            <button name="deleteDriver" onclick="window.location.href='delete={{ driver.driver_id }}'" value="{{ driver.driver_id }}">DELETE</button>
+                            <button name="edit" onclick="window.location.href='edit={{ driver.driver_id }}'">EDIT</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+        <p>No results found</p>
+        <br><br><br><br><br><br><br><br><br>
+    {% endif %}
+    </div>
+</div>

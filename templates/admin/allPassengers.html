@@ -1,0 +1,31 @@
+<div class="into">
+    <h1 class="TagLine">All <span class="ride">Passengers!</span></h1>
+    <div class="card-container">
+    {% if passengers %}
+        {% for passenger in passengers %}
+            <div class="card">
+                <div class="card-content">
+                    <h2>{{ passenger.name }}</h2>
+                    <div class="section">
+                        <p>Address: {{ passenger.address }}</p>
+                        <p>Gender: {{ passenger.gender }}</p>
+                    </div>
+                    <div class="section">
+                        <p>Phone No: {{ passenger.phone_no }}</p>
+                    </div>
+                    <p>Email: {{ passenger.email }}</p>
+                    <div class="button-group">
+                        <form method="get" action="" style="display:inline;">
+                            <button name="deletePassenger" onclick="window.location.href='deletePassenger={{ passenger.pass_id }}'" value="{{ passenger.pass_id }}">DELETE</button>
+                            <button name="edit" onclick="window.location.href='edit={{ passenger.pass_id }}'">EDIT</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+        <p>No results found</p>
+        <br><br><br><br><br><br><br><br><br>
+    {% endif %}
+    </div>
+</div>

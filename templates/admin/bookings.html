@@ -1,0 +1,33 @@
+<div class="into">
+    <h1 class="TagLine">All <span class="ride">Bookings!</span></h1>
+    <div class="card-container">
+        {% if bookings %}
+        {% for booking in bookings %}
+            <div class="card">
+                <div class="card-content">
+                    <h2>BOOKING ID: {{ booking.book_id }}</h2>
+                    <div class="section">
+                        <p>From: {{ booking.from_location }}</p>
+                        <p>To: {{ booking.to_location }}</p>
+                    </div>
+                    <div class="section">
+                        <p>Passenger: {{ booking.passenger.name }}</p>
+                        <p>Driver: {{ booking.driver.name }}</p>
+                        <p>Status: 
+                            {{ booking.status }}
+                        </p>
+                    </div>
+                    <div class="button-group">
+                        <form>
+                        <button name="deleteBooking" onclick="window.location.href='?deleteBooking={{ booking.book_id  }}'" value="{{ booking.book_id  }}">Cancel</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+        <p>No results found</p>
+        <br><br><br><br><br><br><br><br><br>
+    {% endif %}
+    </div>
+</div>
