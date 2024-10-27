@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,6 +7,7 @@
       href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
       rel="stylesheet"
     />
+    {% load static %}
     <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" title="Favicon"/>
@@ -34,7 +34,7 @@
         <li><a href="#" id="testimoniesButton">Reviews</a></li>
         <li><a href="contact.php" id="aboutusButton">Contact us</a></li>
     </ul>
-    <div class="admin"><a href="profile.php">
+    <div class="admin"><a href="{% url 'profile' %}">
         {% if passenger_details.gender == 'Male' %}
     <img class="pfp" src="{% static 'images/man.png' %}" alt="profile pic">
 {% else %}
@@ -191,12 +191,15 @@
                     </form>
                     {% elif booking.status == 'completed' %}
                          <div class='status-message' style='color: #28a745;'>Passenger reached destination</div>
-                    <form style="display:flex;flex-direction:row;" class="button-review">
-                        <button class="search pass-confirm-button" name='review' value="">Review</button>
-                        <button class="search pass-confirm-button" name='confirm' value="true">Confirm</button>
+                    <form style="display:flex;flex-direction:row;" method='get' class="button-review">
+                        <button class="search pass-confirm-button" name='review' value="True">Review</button>
+                        <button class="search pass-confirm-button" name='confirmTrip' value="{{booking.pass_id}}">Confirm</button>
                     </form>
                     {% endif %}
                 </div>
+                {% if reviewFlag == True %}
+                    {% include 'passenger/review.html' %}
+                {% endif %}
             </div>
         </div>
     </div>

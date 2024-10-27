@@ -1,3 +1,4 @@
+{% load static %}
 <div class="into">
     <h1 class="TagLine">All <span class="ride">Drivers!</span></h1>
     <div class="card-container">
@@ -5,7 +6,7 @@
         {% for driver in drivers %}
             <div class="card">
                 <div class="card-image">
-                    <img src="{{ driver.auto_img.url }}" alt="{{ driver.name }}">
+                    <img src="{% static 'images/' %}{{ driver.auto_img }}" alt="{{ driver.name }}">
                 </div>
                 <div class="card-content">
                     <h2>{{ driver.name }}</h2>

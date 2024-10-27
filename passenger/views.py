@@ -9,76 +9,126 @@ from.utils import get_distance_between_places,generate_otp,calculate_trip_price
 
 
 def passenger_page(request):
-    flag = request.session.get('passengerFlag', 1)
 
-    # if passenger click another location button
+    request.session['whoami']=1
+
+    if 'passengerFlag' in request.session:
+        flag = request.session['passengerFlag']
+    elif Bookings.objects.filter(pass_id=request.session['passenger_id']):
+        flag = 3
+    else:
+        flag = 1
+
+    paymentwindow = request.session.get('paymentwindow', False)
+    reviewFlag = request.session.get('reviewFlag', False)
+    
+    # Retrieve session data for error handling
+    err = request.session.get('err', '')
+    error = request.session.get('error', '')
+    distance = request.session.get('distance', 0)
+    price = request.session.get('price', 0)
+
+    # Button actions
+    # If passenger clicks "another location" button
     if request.GET.get('another_location') == 'true':
         request.session['passengerFlag'] = 1
         return HttpResponseRedirect(reverse('passengerPage'))
     
-    # if passenger tries to pay for the auto
+    # If passenger tries to pay for the auto
     if 'payment' in request.GET:
         request.session['lookedupdriver'] = request.GET['payment']
         request.session['paymentwindow'] = True
         return HttpResponseRedirect(reverse('passengerPage'))
     
-    # if he dont want to pay and return to view other auto
+    # If passenger clicks "Back" to view other autos
     if 'Back' in request.GET:
         request.session['paymentwindow'] = False
         return HttpResponseRedirect(reverse('passengerPage'))
     
-    # if passenger pays and book the auto
+    # If passenger pays and books the auto
     if 'BookDriver' in request.GET:
         bookings = Bookings(
-            pass_id = request.session['passenger_id'],
-            driver_id = request.GET['BookDriver'],
-            from_location = request.session['from'],
-            to_location = request.session['to'],
-            landmark = request.session['landmark'],
-            status = 'requested',
-            distance = request.session['distance'],
-            price = request.session['price'],
-            OTP = generate_otp()
+            pass_id=request.session['passenger_id'],
+            driver_id=request.GET['BookDriver'],
+            from_location=request.session['from'],
+            to_location=request.session['to'],
+            landmark=request.session['landmark'],
+            status='requested',
+            distance=request.session['distance'],
+            price=request.session['price'],
+            OTP=generate_otp()
         )
         bookings.save()
-        request.session['bookingID']=bookings.book_id
+        request.session['bookingID'] = bookings.book_id
         request.session['paymentwindow'] = False
         request.session['passengerFlag'] = 3
         return redirect('passengerPage')
+    
+    # Review actions
+    # Submit a review
+    if 'submitReview' in request.GET:
+        feedback = request.GET['feedback']
+        text = request.GET['review_text']
+        passenger_instance = Passenger.objects.get(pass_id=request.session['passenger_id'])
+        driver_instance = Driver.objects.get(driver_id=request.session['lookedupdriver'])
+        review = Reviews(
+            pass_id=passenger_instance,
+            driver_id=driver_instance,
+            stars=feedback,
+            review_text=text
+        )
+        review.save()
+        request.session['reviewFlag'] = False
+        return redirect('passengerPage')
+    
+    # Initiate review process
+    if 'review' in request.GET:
+        request.session['reviewFlag'] = True
+        return redirect('passengerPage')
+    
+    # Cancel review process
+    if 'gobacktoreview' in request.GET:
+        request.session['reviewFlag'] = False
+        return redirect('passengerPage')
+    
+    # Confirm trip
+    if 'confirmTrip' in request.GET:
+        id = request.GET['confirmTrip']
+        booking = Bookings.objects.get(pass_id=id)
+        booking.delete()
+        request.session['passengerFlag'] = 2
+        temp = request.session['passenger_id']
+        request.session.flush()
+        request.session['passenger_id'] = temp 
+        return redirect('passengerPage')
+    # Fetching data from models and session
 
-    # fetching data from bookings
+    # Booking data
     if 'bookingID' in request.session:
         booking = Bookings.objects.get(book_id=request.session['bookingID'])
     else:
         booking = Bookings.objects.none()
-
-    # fetching data of thr viewd and booked driver
+    
+    # Driver data of the viewed and booked driver
     if 'lookedupdriver' in request.session:
-        lookedupdriver = Driver.objects.get(driver_id = request.session['lookedupdriver'])
+        lookedupdriver = Driver.objects.get(driver_id=request.session['lookedupdriver'])
     else:
         lookedupdriver = Driver.objects.none()
     
-    # getting passenger details
+    # Passenger details
     passenger = Passenger.objects.get(pass_id=request.session['passenger_id'])
     available_drivers = Driver.objects.none()
-
-    # Retrieve any errors from the session, if available
-    paymentwindow = request.session.get('paymentwindow', False)
-    err = request.session.get('err', '')
-    error = request.session.get('error', '')
-    distance = request.session.get('distance',0)
-    price = request.session.get('price',0)
-
-    if request.method == 'POST':
     
+    # Search functionality and form handling
+    if request.method == 'POST':
         searchForm = searchAuto(request.POST)
         
         if searchForm.is_valid():
             fromLoc = searchForm.cleaned_data['from_loc']
             toLoc = searchForm.cleaned_data['to_loc']
             landmark = searchForm.cleaned_data['landmark']
-            request.session['distance']=get_distance_between_places(fromLoc,toLoc)
-            request.session['price']=calculate_trip_price(request.session['distance'])
+            request.session['distance'] = get_distance_between_places(fromLoc, toLoc)
+            request.session['price'] = calculate_trip_price(request.session['distance'])
 
             # Store search data in session
             request.session['from'] = fromLoc
@@ -87,7 +137,11 @@ def passenger_page(request):
             
             try:
                 # Attempt to find drivers in the specified location
-                available_drivers = Driver.objects.filter(current_location=fromLoc).exclude(Q(bookings__status__isnull=False) & ~Q(bookings__status="requested"))
+                available_drivers = Driver.objects.filter(
+                    current_location=fromLoc
+                ).exclude(
+                    Q(bookings__status__isnull=False) & ~Q(bookings__status="requested")
+                )
                 request.session['error'] = str(available_drivers)
                 
                 # If drivers are found, store their IDs in session
@@ -114,15 +168,21 @@ def passenger_page(request):
                 return redirect('passengerPage')
     else:
         searchForm = searchAuto()
-
+    
     # Load available drivers from session if any
     if 'available_driver_ids' in request.session:
         driver_ids = request.session['available_driver_ids']
         available_drivers = Driver.objects.filter(driver_id__in=driver_ids)
-    
-    # Process location if set in session
-    from_location = request.session.get('from', '').split()[0].strip(',')
-    to_location = request.session.get('to', '').split()[0].strip(',')
+
+     # Process location if set in session
+     # Safely get the first word or set to an empty string if 'from' or 'to' is empty or doesn't contain spaces
+    from_location = request.session.get('from', '').split()[0] if request.session.get('from', '').split() else ''
+    to_location = request.session.get('to', '').split()[0] if request.session.get('to', '').split() else ''
+
+    # If you still need to strip commas
+    from_location = from_location.strip(',')
+    to_location = to_location.strip(',')
+
 
     return render(request, 'passenger/passenger.html', {
         'passenger_details': passenger,
@@ -132,13 +192,13 @@ def passenger_page(request):
         'from': from_location,
         'to': to_location,
         'err': err,
-        'error':error,
-        'paymentwindow':paymentwindow,
-        'distance':distance,
-        'price':price,
-        'lookedupdriver':lookedupdriver,
-        'booking':booking,
-
+        'error': error,
+        'paymentwindow': paymentwindow,
+        'distance': distance,
+        'price': price,
+        'lookedupdriver': lookedupdriver,
+        'booking': booking,
+        'reviewFlag': reviewFlag,
     })
 
 def passenger_login(request):
@@ -154,6 +214,8 @@ def passenger_login(request):
                 passenger = Passenger.objects.get(email=email)
                 if passenger.password == password:
                     request.session['passenger_id'] = passenger.pass_id
+                    if 'passengerFlag' in request.session:
+                        del request.session['passengerFlag']
                     return redirect('passengerPage')
                 else:
                     err = "Incorrect password"
@@ -180,6 +242,8 @@ def passenger_login(request):
                 new_passenger.save()
                 passenger = Passenger.objects.get(email=email)
                 request.session['passenger_id']=passenger.pass_id
+                if 'passengerFlag' in request.session:
+                    del request.session['passengerFlag']
                 return redirect('passengerPage')  # Redirect to a success page
             except Exception as e:
                 err = str(e)

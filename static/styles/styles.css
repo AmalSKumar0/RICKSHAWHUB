@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 html {
   scroll-behavior: smooth;
 }
+
 :root {
   --primary-color: #ff833e;
   --primary-color-dark: #db6f35;
@@ -29,15 +31,24 @@ a {
 }
 
 a {
-  text-decoration: none; /* Remove underline */
-  color: inherit;        /* Inherit color from parent */
-  font-size: inherit;    /* Inherit font size */
-  font-weight: inherit;  /* Inherit font weight */
-  background: none;      /* Remove any background */
-  border: none;          /* Remove any border */
-  padding: 0;            /* Remove any padding */
-  margin: 0;             /* Remove any margin */
-  outline: none;         /* Remove focus outline */
+  text-decoration: none;
+  /* Remove underline */
+  color: inherit;
+  /* Inherit color from parent */
+  font-size: inherit;
+  /* Inherit font size */
+  font-weight: inherit;
+  /* Inherit font weight */
+  background: none;
+  /* Remove any background */
+  border: none;
+  /* Remove any border */
+  padding: 0;
+  /* Remove any padding */
+  margin: 0;
+  /* Remove any margin */
+  outline: none;
+  /* Remove focus outline */
   /* cursor: none; */
 }
 
@@ -188,7 +199,8 @@ nav {
   left: 0;
   transform: translateY(-50%);
 }
-.passenger{
+
+.passenger {
   padding: 0.75rem 1.5rem;
   outline: none;
   border: none;
@@ -201,9 +213,10 @@ nav {
   background-color: var(--primary-color);
   width: 50%;
   text-align: center;
-  border:2px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
 }
-.driver{
+
+.driver {
   padding: 0.75rem 1.5rem;
   outline: none;
   border: none;
@@ -216,13 +229,15 @@ nav {
   background-color: var(--white);
   width: 50%;
   text-align: center;
-  border:2px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
 }
-.passenger:hover{
+
+.passenger:hover {
   background-color: var(--primary-color-dark);
-  border:2px solid var(--primary-color-dark);
+  border: 2px solid var(--primary-color-dark);
 }
-.driver:hover{
+
+.driver:hover {
   background-color: var(--primary-color);
   color: var(--white);
   border: 2px solid var(--white);
@@ -346,7 +361,7 @@ nav {
     background-color: var(--primary-color);
   }
 
-  .sign__in:hover{
+  .sign__in:hover {
     background-color: var(--primary-color-dark);
   }
 
@@ -363,19 +378,22 @@ nav {
   .header__content :is(h1, p, .bar) {
     text-align: left;
   }
+
   .col-3 {
     width: 100%;
   }
-  .testcon{
+
+  .testcon {
     display: none;
   }
-  
+
 }
 
 @media (width > 1024px) {
   .col-3 {
     width: 100%;
   }
+
   .header__content form {
     flex-direction: row;
   }
@@ -383,88 +401,107 @@ nav {
   .header__content button {
     width: fit-content;
   }
-  .testcon{
+
+  .testcon {
     display: none;
   }
-  
+
 }
+
 .reviews-section {
-  background-color: #fff; /* White background for the review section */
+  background-color: #fff;
+  /* White background for the review section */
   padding: 20px;
-  border-top: 1px solid #f5f5f5; /* Light gray border to keep it subtle */
+  border-top: 1px solid #f5f5f5;
+  /* Light gray border to keep it subtle */
   font-family: Arial, sans-serif;
 }
 
 .reviews-section h2 {
   font-size: 1.5em;
-  color:var(--primary-color); /* Orange color for the heading */
+  color: var(--primary-color);
+  /* Orange color for the heading */
   margin-bottom: 20px;
 }
 
 .review {
-  border-bottom: 1px solid #f5f5f5; /* Light gray border for separation */
+  border-bottom: 1px solid #f5f5f5;
+  /* Light gray border for separation */
   padding: 10px 0;
 }
 
 .review:last-of-type {
-  border-bottom: none; /* Remove border for the last review */
+  border-bottom: none;
+  /* Remove border for the last review */
 }
 
 .review-text {
   font-size: 1em;
-  color: #333; /* Dark gray text for better readability */
+  color: #333;
+  /* Dark gray text for better readability */
   margin: 0;
 }
 
 .review-author {
   font-size: 0.9em;
-  color: var(--primary-color); /* Orange color for author names */
+  color: var(--primary-color);
+  /* Orange color for author names */
   margin-top: 5px;
 }
 
 
 /* testimony */
 .text-center .section-heading h2:after {
-  margin:30px auto 25px auto;
+  margin: 30px auto 25px auto;
 }
+
 .text-center {
   text-align: center;
 }
 
 .row {
   padding: 15px !important;
-}.row {
+}
+
+.row {
   max-width: 1245px;
   margin: 0 auto;
   padding: 75px 0;
   position: relative;
 }
+
 .row img {
   height: auto;
   max-width: 100%;
 }
+
 .clearfix:after {
   content: "";
   display: table;
   clear: both;
 }
+
 .testimonial.classic footer:before {
   background: var(--primary-color);
 }
+
 .section-heading h2:after {
-  background:var(--primary-color);
-  content:"";
-  display:block;
-  width:30px;
-  height:5px;
-  margin-top:30px;
+  background: var(--primary-color);
+  content: "";
+  display: block;
+  width: 30px;
+  height: 5px;
+  margin-top: 30px;
 }
+
 .text-center .section-heading h2:after {
-  margin:30px auto 25px auto;
+  margin: 30px auto 25px auto;
 }
+
 .section-heading {
   padding: 0 0 15px 0;
 }
+
 .section-heading h3 {
   font-size: 14px;
   font-weight: bold;
@@ -472,6 +509,7 @@ nav {
   letter-spacing: 2px;
   padding-bottom: 0;
 }
+
 #banner .section-heading:before {
   content: "";
   display: block;
@@ -479,26 +517,31 @@ nav {
   height: 5px;
   margin-top: 30px;
 }
-.section-title{
-  font-family:var(--header-font);
-  font-size: 34px; 
-  font-weight:700;
-  color:var(--text-dark);
+
+.section-title {
+  font-family: var(--header-font);
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-dark);
 }
+
 .section-heading h2:after {
-  background:var(--primary-color);
-  content:"";
-  display:block;
-  width:30px;
-  height:5px;
-  margin-top:30px;
+  background: var(--primary-color);
+  content: "";
+  display: block;
+  width: 30px;
+  height: 5px;
+  margin-top: 30px;
 }
+
 .col-3 {
   width: 33.33%;
 }
+
 .testimonial {
   padding: 15px;
 }
+
 .testimonial img {
   max-height: 120px;
   border-radius: 250em;
@@ -534,54 +577,67 @@ nav {
 .testimonial.bigtest q {
   font-size: 22px;
 }
-.testcon{
+
+.testcon {
   display: flex;
 }
-.imgu{
+
+.imgu {
   height: 100px;
   width: auto;
   border: 2px solid var(--primary-color);
 }
-.john,.user3{
+
+.john,
+.user3 {
   animation: down-fade 1s forwards;
 }
-.user2{
+
+.user2 {
   animation: up-fade 1s forwards;
 }
+
 /* Animations */
 @keyframes up-fade {
   0% {
-      transform: translateY(-50%);
-      opacity: 0;
+    transform: translateY(-50%);
+    opacity: 0;
   }
+
   50% {
-      opacity: 0.5;
+    opacity: 0.5;
   }
+
   100% {
-      transform: translateY(0);
-      opacity: 1;
+    transform: translateY(0);
+    opacity: 1;
   }
 }
+
 @keyframes down-fade {
   0% {
-      transform: translateY(50%);
-      opacity: 0;
+    transform: translateY(50%);
+    opacity: 0;
   }
+
   50% {
-      opacity: 0.5;
+    opacity: 0.5;
   }
+
   100% {
-      transform: translateY(0);
-      opacity: 1;
+    transform: translateY(0);
+    opacity: 1;
   }
 }
-.f2{
-  background-color:var(--text-dark);
+
+.f2 {
+  background-color: var(--text-dark);
   color: #fff;
   padding: 40px 0;
 }
+
 .footer {
- 
+
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
@@ -628,26 +684,33 @@ nav {
   font-size: 20px;
   text-decoration: none;
 }
-.rights{
-   position: relative;
-   bottom: -10px;
-   left: 40%;
-   right: 60%;
-   width: 20%;
+
+.rights {
+  position: relative;
+  bottom: -10px;
+  left: 40%;
+  right: 60%;
+  width: 20%;
 }
-hr{
+
+hr {
   border: none;
-  border-bottom: 1px solid #ccc; /* adjust the color and width as needed */
-  margin-bottom: 20px; /* add some space below the line */
+  border-bottom: 1px solid #ccc;
+  /* adjust the color and width as needed */
+  margin-bottom: 20px;
+  /* add some space below the line */
 }
-.into{
+
+.into {
   animation: fadeIn 0.4s ease-in;
 }
+
 @keyframes fadeIn {
   from {
-      opacity: 0;
+    opacity: 0;
   }
+
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }

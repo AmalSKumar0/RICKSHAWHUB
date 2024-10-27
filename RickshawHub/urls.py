@@ -3,10 +3,8 @@ from django.contrib import admin
 from django.urls import path,include
 from django.http import HttpResponse
 from django.shortcuts import render
-from .views import home
+from .views import home,contact,viewProfile
 
-def home(request):
-    return render(request , 'homePage.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,4 +12,6 @@ urlpatterns = [
     path('admin_module/', include('admin_module.urls')),
     path('driver/', include('driver.urls')),
     path('passenger/', include('passenger.urls')),
+    path('contact/',contact,name='contact'),
+    path('profile/',viewProfile,name='profile'),
 ]
